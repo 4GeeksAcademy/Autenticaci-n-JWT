@@ -12,8 +12,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					title: "SECOND",
 					background: "white",
 					initial: "white"
-				}
-			]
+				},
+			],
+			user: null,
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -33,21 +34,64 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+			signup: async (email, password) => {
+				try {
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+					const bodyData = {
+						email: email,
+						password: password,
+					}
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
+					const options = {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(bodyData)
+					};
+
+					// fetching data from the backend
+					const response = await fetch(`${process.env.BACKEND_URL}/api/signup`, options);
+					const msg = await response.json()
+
+					// don't forget to return something, that is how the async resolves
+					return msg;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
+			},
+			login: async (email, password, navigate) => {
+				const resp = await fetch(`https://sturdy-tribble-g4q96jj9547j2x54-3001.app.github.dev/api/login`, { 
+					 method: "POST",
+					 headers: { "Content-Type": "application/json" },
+					 body: JSON.stringify({ email, password }) 
+				})
+		   
+				if(!resp.ok) throw Error("There was a problem in the login request")
+		   
+				if(resp.status === 401){
+					 throw("Invalid credentials")
+				}
+				else if(resp.status === 400){
+					 throw ("Invalid email or password format")
+				}
+				const data = await resp.json()
+				// Guarda el token en la localStorage
+				// También deberías almacenar el usuario en la store utilizando la función setItem
+				localStorage.setItem("jwt-token", data.token);
+				setStore({ user: data.user });
+				navigate("/private")
+		   
+				return data
+		   },
+		   logout: () => {
+			// Elimina el token del localStorage
+			localStorage.removeItem("jwt-token");
+			// También puedes limpiar otros datos relacionados con la autenticación, como el usuario en la store
+			setStore({ user: null });
 		}
+	}
+
 	};
 };
 

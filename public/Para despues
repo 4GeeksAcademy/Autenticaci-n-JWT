@@ -1,0 +1,15 @@
+#Fragmento de codigo para generar token 
+@api.route("/login", methods=["POST"])
+def create_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+
+   
+    user = User.query.filter_by(email=email, password=password).first()  # Consultar la base de datos por el nombre de usuario y la contraseña
+
+    if user is None:
+        return jsonify({"msg": "Bad email or password"}), 401 # el usuario no se encontró en la base de datos
+    
+    
+    access_token = create_access_token(identity=user.id) # Crear un nuevo token con el id de usuario dentro
+    return jsonify({ "token": access_token, "user_id": user.id })
