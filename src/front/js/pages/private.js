@@ -21,16 +21,18 @@ export const Private = () => {
 
 
     return (<>
-        { store.storeToken ?
-        <div className="container">
-            <h1>Esto es tu página privada</h1>
-            <Button variant="primary"
-                type="submit"
-                onClick={handleLogout}>
-                Logout
-            </Button>
-        </div>
-        
- :navigate("/login")}
+        {store.storeToken ?
+            <div className="container">
+                <div className="alert alert-secondary m-5" role="alert">
+                    Bienvenido!!
+                </div>
+                <Button className="m-5" variant="secondary"
+                    type="submit"
+                    onClick={handleLogout}>
+                    Logout
+                </Button>
+            </div>
+
+            : navigate("/login")}
     </>)
 };

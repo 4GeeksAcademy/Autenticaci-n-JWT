@@ -4,9 +4,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: null,
 			storeToken: false,
 			characters: [],
-			
+
 		},
-		
+
 		actions: {
 			signup: async (email, password) => {
 				try {
@@ -34,7 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-//----------------------------------------------------------------------------------------------------------------------//
+			//----------------------------------------------------------------------------------------------------------------------//
 
 			login: async (email, password, navigate) => {
 				const resp = await fetch(`${process.env.BACKEND_URL}/api/login`, {
@@ -61,7 +61,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return data
 			},
 
-//----------------------------------------------------------------------------------------------------------------------//
+			//----------------------------------------------------------------------------------------------------------------------//
 			logout: () => {
 				// Elimina el token del localStorage
 				localStorage.removeItem("jwt-token");
@@ -69,55 +69,55 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ user: null });
 			},
 
-//----------------------------------------------------------------------------------------------------------------------//
+			//----------------------------------------------------------------------------------------------------------------------//
 			autenticar: (token) => {
 				const options = {
 					method: "GET",
-					headers: { 
-						"Content-Type": "application/json", 
+					headers: {
+						"Content-Type": "application/json",
 						"Authorization": "Bearer " + token
 					}
-	
+
 				}
 				fetch(`${process.env.BACKEND_URL}/api/private`, options)
-				.then(response => {
-					if (response.status === 200){
-						response.json()
-					} else {
-						throw Error("Problema en el request")
-					}
-				})
-				.then(response => setStore({storeToken: true}))
-				.catch(error => console.log(error))
+					.then(response => {
+						if (response.status === 200) {
+							response.json()
+						} else {
+							throw Error("Problema en el request")
+						}
+					})
+					.then(response => setStore({ storeToken: true }))
+					.catch(error => console.log(error))
 			},
 
-//----------------------------------------------------------------------------------------------------------------------//
+			//----------------------------------------------------------------------------------------------------------------------//
 			gotCharacters: async () => {
-                try {
-                    const options = {
-                        method: 'GET',
-                        headers: { 'Accept': 'application/json'},
-                    };
+				try {
+					const options = {
+						method: 'GET',
+						headers: { 'Accept': 'application/json' },
+					};
 
-                    const response = await fetch('https://thronesapi.com/api/v2/Characters', options);
+					const response = await fetch('https://thronesapi.com/api/v2/Characters', options);
 
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
+					if (!response.ok) {
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
 
-                    const data = await response.json();
-                    console.log(data);
-                    setStore({ characters: data.results });
-                } catch (error) {
-                    console.error('Error:', error.message);
-                }
-            },
-			
-			
+					const data = await response.json();
+					console.log(data);
+					setStore({ characters: data });
+				} catch (error) {
+					console.error('Error:', error.message);
+				}
+			},
+
+
 		}
 
 	};
-	
+
 };
 
 export default getState;

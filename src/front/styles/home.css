@@ -9,3 +9,21 @@ body {
 .navbar {
     background-color: rgba(255, 255, 255, 0.7); 
   }
+
+  .card-img-top {
+    width: 50%;
+    height: 50%;
+    object-fit: scale-down;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-position: center center;
+  }
+
+  #dropdown-basic-button {
+    background-color: #6c757d; /* Color secundario de Bootstrap */
+    color: #ffffff; /* Color del texto, puedes ajustarlo según tus necesidades */
+    border: none;
+  }
+
+

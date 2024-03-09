@@ -8,13 +8,12 @@ export const Navbar = () => {
 		<nav className="navbar">
 			<div className="container-fluid m-1">
 				<Link to="/">
-					<img src="https://cdn.worldvectorlogo.com/logos/game-of-thrones.svg" className="" style= {{height: 50, width: 300}}/>
+					<img src="https://cdn.worldvectorlogo.com/logos/game-of-thrones.svg" className="" style={{ height: 50, width: 300 }} />
 				</Link>
 				<div className="ml-auto">
-					<DropdownButton id="dropdown-basic-button" title="Information">
+					<DropdownButton id="dropdown-basic-button" title="Information" className="custom-dropdown">
 						<Dropdown.Item href="https://start.4geeksacademy.com/starters/react-flask" target="_blank">Documentation</Dropdown.Item>
-						<Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-						<Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+						<Dropdown.Item href="https://thronesapi.com/" target="_blank">API Documentation</Dropdown.Item>
 					</DropdownButton>
 				</div>
 			</div>
