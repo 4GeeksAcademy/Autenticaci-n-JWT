@@ -5,10 +5,10 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 
 export const Navbar = () => {
 	return (
-		<nav className="navbar navbar-light bg-light">
-			<div className="container">
+		<nav className="navbar">
+			<div className="container-fluid m-1">
 				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
+					<img src="https://cdn.worldvectorlogo.com/logos/game-of-thrones.svg" className="" style= {{height: 50, width: 300}}/>
 				</Link>
 				<div className="ml-auto">
 					<DropdownButton id="dropdown-basic-button" title="Information">

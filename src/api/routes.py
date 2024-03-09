@@ -61,22 +61,18 @@ def create_token():
     
     access_token = create_access_token(identity=user.id) # Crear un nuevo token con el id de usuario dentro
     return jsonify({ "token": access_token, "user_id": user.id })
-
-
-
-
-
-
+#------------------------------------------------------------------------------------------------------------------------------#
 
 
 @api.route("/private", methods=["GET"]) # Protege una ruta con jwt_required, bloquea las peticiones sin un JWT válido
 @jwt_required()
 def protected():
-    # Accede a la identidad del usuario actual con get_jwt_identity
-    current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
     
-    return jsonify({"id": user.id, "email": user.email }), 200
+    current_user_id = get_jwt_identity() # Accede a la identidad del usuario actual con get_jwt_identity
+    user = User.query.get(current_user_id)
+    if user is None: 
+        raise APIException("Usuario no encontrado", status_code= 404)
+    return jsonify("Usuario autenticado"), 200
 
 
 @api.route('/hello', methods=['POST', 'GET'])
